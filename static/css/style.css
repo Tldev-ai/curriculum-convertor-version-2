@@ -1,0 +1,533 @@
+/* Main Styles for Curriculum Converter */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Times New Roman', 'Georgia', serif;
+    background: #f5f5f0;
+    color: #000;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Notebook Container */
+.notebook-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: 1px solid #e0e0e0;
+    position: relative;
+    padding: 60px 80px 60px 120px;
+    min-height: 100vh;
+}
+
+/* Notebook Holes */
+.notebook-holes {
+    position: absolute;
+    left: 25px;
+    top: 60px;
+    bottom: 20px;
+    width: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hole {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #f8f8f8;
+    border: 1px solid #d0d0d0;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+}
+
+/* Blue Margin Line */
+.margin-line {
+    position: absolute;
+    left: 80px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: #0066cc;
+}
+
+/* Header Section */
+.header {
+    text-align: center;
+    margin-bottom: 60px;
+    position: relative;
+    z-index: 10;
+}
+
+.main-title {
+    font-size: 2.5rem;
+    color: #000000;
+    margin-bottom: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #333333;
+    font-style: italic;
+    margin-bottom: 0;
+}
+
+/* Main Action Section - UPDATED FOR CENTERED LAYOUT */
+.main-action-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 80px 0;
+    position: relative;
+    z-index: 10;
+}
+
+.action-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+}
+
+/* Button Container - Centered */
+.button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.start-btn {
+    background: #4A90E2;
+    color: white;
+    border: 2px solid #357ABD;
+    border-radius: 8px;
+    padding: 20px 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    font-family: 'Times New Roman', serif;
+}
+
+.start-btn:hover {
+    background: #357ABD;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+/* Stats Container - Below Button */
+.stats-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.stats-box {
+    background: #4A90E2;
+    color: white;
+    border: 2px solid #357ABD;
+    border-radius: 8px;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    max-width: 600px;
+    justify-content: center;
+}
+
+.stat-icon {
+    font-size: 1.5rem;
+}
+
+.stat-text {
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    font-family: 'Times New Roman', serif;
+}
+
+/* Features Section */
+.features-section {
+    margin: 80px 0;
+    position: relative;
+    z-index: 10;
+}
+
+.section-title {
+    font-size: 2rem;
+    color: #000000;
+    text-align: center;
+    margin-bottom: 50px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.feature-card {
+    background: #ffffff;
+    border: 2px solid #000;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.feature-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.feature-title {
+    font-size: 1.3rem;
+    color: #000000;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.feature-description {
+    font-size: 1rem;
+    color: #333333;
+    line-height: 1.6;
+}
+
+/* Reviews Section - Clean Layout Without Boxes */
+.reviews-section {
+    margin: 60px 0 40px 0; /* Moved up, reduced bottom margin */
+    position: relative;
+    z-index: 10;
+}
+
+.review-cards-clean {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 60px; /* Increased horizontal gap for better separation */
+    margin-top: 40px;
+    padding: 0 20px;
+}
+
+.review-item-clean {
+    background: transparent;
+    border: none;
+    padding: 30px 20px;
+    transition: all 0.3s ease;
+}
+
+.review-item-clean:hover {
+    transform: translateY(-2px);
+}
+
+.review-header-clean {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+.review-icon-clean {
+    flex-shrink: 0;
+}
+
+.profile-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #4A90E2;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Remove vertical divider - not needed for 2x2 grid */
+
+.author-name-clean {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 5px;
+}
+
+.author-role-clean {
+    font-size: 0.95rem;
+    color: #666666;
+    font-style: italic;
+}
+
+.review-content-clean {
+    font-size: 1rem;
+    color: #333333;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    font-style: italic;
+    text-align: justify;
+    padding-left: 20px;
+    border-left: 3px solid #4A90E2;
+}
+
+.review-rating-clean {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.review-time-clean {
+    font-size: 0.85rem;
+    color: #888888;
+    font-style: normal;
+}
+
+/* RESPONSIVE DESIGN - UPDATED WITH BETTER MOBILE SPACING */
+
+@media (max-width: 768px) {
+    .notebook-container {
+        padding: 40px 30px 40px 110px; /* Increased left padding from 90px to 110px */
+    }
+
+    .main-title {
+        font-size: 1.8rem;
+        margin-left: 0;
+        padding-left: 0;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .start-btn {
+        padding: 15px 30px;
+        font-size: 0.9rem;
+    }
+
+    .stats-box {
+        margin-left: 20px; /* Changed from 0 to 20px */
+        margin-right: 20px;
+        padding: 15px 25px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .stat-text {
+        font-size: 0.9rem;
+        text-align: center;
+    }
+
+    .main-action-section {
+        margin: 60px 0;
+    }
+
+    .action-content {
+        gap: 25px;
+    }
+
+    .review-cards {
+        grid-template-columns: 1fr;
+        margin-left: 30px; /* Increased from 20px to 30px */
+        margin-right: 20px;
+        gap: 25px;
+    }
+
+    .header {
+        margin-left: 10px; /* Added margin for header */
+        margin-right: 10px;
+    }
+
+    .review-card {
+        padding: 20px;
+    }
+
+    .review-header {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        gap: 10px;
+    }
+
+    .review-icon {
+        font-size: 1.5rem;
+        margin-right: 8px;
+        margin-bottom: 5px;
+    }
+
+    .review-content {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .author-name {
+        font-size: 1rem;
+    }
+
+    .author-role {
+        font-size: 0.85rem;
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .notebook-container {
+        padding: 30px 25px 30px 100px; /* Increased left padding from 80px to 100px */
+        margin: 10px;
+    }
+
+    .main-title {
+        font-size: 1.6rem;
+    }
+
+    .start-btn {
+        padding: 12px 25px;
+        font-size: 0.85rem;
+    }
+
+    .stats-box {
+        font-size: 0.8rem;
+        padding: 12px 20px;
+        margin-left: 15px; /* Added margin instead of 0 */
+        margin-right: 15px;
+    }
+
+    .stat-text {
+        font-size: 0.8rem;
+    }
+
+    .review-cards {
+        margin-left: 25px; /* Increased from 15px to 25px */
+        margin-right: 15px;
+        gap: 20px;
+    }
+
+    .header {
+        padding-right: 10px;
+        margin-left: 15px; /* Added margin */
+        margin-right: 15px;
+    }
+
+    .review-content {
+        padding-right: 10px;
+    }
+
+    .feature-grid {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.4rem;
+    }
+
+    .cta-title {
+        font-size: 1.6rem;
+    }
+
+    .cta-description {
+        font-size: 1rem;
+    }
+
+    .cta-btn {
+        padding: 15px 30px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 360px) {
+    .notebook-container {
+        padding: 25px 20px 25px 95px; /* Increased from 75px to 95px */
+    }
+
+    .main-title {
+        font-size: 1.4rem;
+        line-height: 1.3;
+    }
+
+    .start-btn {
+        padding: 10px 20px;
+        font-size: 0.8rem;
+    }
+
+    .stats-box {
+        padding: 10px 15px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .stat-text {
+        font-size: 0.75rem;
+    }
+
+    .review-cards-clean {
+        margin-left: 20px; /* Increased from 10px to 20px */
+        margin-right: 10px;
+    }
+
+    .header {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .feature-grid {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .stats-grid {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+    }
+
+    .cta-title {
+        font-size: 1.4rem;
+    }
+
+    .cta-btn {
+        padding: 12px 25px;
+        font-size: 0.8rem;
+    }
+
+    .stat-number {
+        font-size: 1.8rem;
+    }
+}
