@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>II Tutions Curriculum Converter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="notebook-container">
+        <!-- Notebook holes -->
+        <div class="notebook-holes">
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+        </div>
+
+        <!-- Blue margin line -->
+        <div class="margin-line"></div>
+
+        <!-- Header Section -->
+        <div class="header">
+            <h1 class="main-title">II TUTIONS CURRICULUM CONVERTER</h1>
+            <p class="subtitle">Educate - Empower - Elevate</p>
+        </div>
+
+        <!-- Main Action Section - Centered with Stats Below -->
+        <div class="main-action-section">
+            <div class="action-content">
+                <!-- Centered Start Button -->
+                <div class="button-container">
+                    <a href="{{ url_for('converter_page') }}" class="start-btn">START CONVERSION</a>
+                </div>
+                
+                <!-- Stats Below Button -->
+                <div class="stats-container">
+                    <div class="stats-box">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-text">3,678 Curriculums are Generated in Previous Days</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="reviews-section">
+            <div class="review-cards-clean">
+                <div class="review-item-clean">
+                    <div class="review-header-clean">
+                        <div class="review-icon-clean">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&h=80&fit=crop&crop=face&auto=format" alt="Priya S." class="profile-image">
+                        </div>
+                        <div class="review-author-clean">
+                            <div class="author-name-clean">Priya S.</div>
+                            <div class="author-role-clean">Academic Counselor</div>
+                        </div>
+                    </div>
+                    <div class="review-content-clean">
+                        "I use this tool to prepare parents for board transitions. The terminology explanations are spot-on and professionally accurate. Finally found a resource that explains board differences clearly!"
+                    </div>
+                    <div class="review-rating-clean">⭐⭐⭐⭐⭐</div>
+                    <div class="review-time-clean">2 weeks ago</div>
+                </div>
+
+                <div class="review-item-clean">
+                    <div class="review-header-clean">
+                        <div class="review-icon-clean">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&crop=faces&auto=format" alt="Meera & Suresh" class="profile-image">
+                        </div>
+                        <div class="review-author-clean">
+                            <div class="author-name-clean">Meera & Suresh</div>
+                            <div class="author-role-clean">Parents of Grade 9 student</div>
+                        </div>
+                    </div>
+                    <div class="review-content-clean">
+                        "We were confused about moving our daughter from CBSE to IB. This tool explained everything clearly - costs, curriculum differences, everything! Now we made an informed decision."
+                    </div>
+                    <div class="review-rating-clean">⭐⭐⭐⭐⭐</div>
+                    <div class="review-time-clean">1 month ago</div>
+                </div>
+
+                <div class="review-item-clean">
+                    <div class="review-header-clean">
+                        <div class="review-icon-clean">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face&auto=format" alt="Rajesh K." class="profile-image">
+                        </div>
+                        <div class="review-author-clean">
+                            <div class="author-name-clean">Rajesh K.</div>
+                            <div class="author-role-clean">Science Teacher</div>
+                        </div>
+                    </div>
+                    <div class="review-content-clean">
+                        "The detailed comparison helped me understand why my ICSE students struggle when transitioning to Cambridge. Great resource for educators! The assessment method comparisons are incredibly detailed."
+                    </div>
+                    <div class="review-rating-clean">⭐⭐⭐⭐⭐</div>
+                    <div class="review-time-clean">3 weeks ago</div>
+                </div>
+
+                <div class="review-item-clean">
+                    <div class="review-header-clean">
+                        <div class="review-icon-clean">
+                            <img src="https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=80&h=80&fit=crop&crop=face&auto=format" alt="Anita J." class="profile-image">
+                        </div>
+                        <div class="review-author-clean">
+                            <div class="author-name-clean">Anita J.</div>
+                            <div class="author-role-clean">Mother of Grade 11 student</div>
+                        </div>
+                    </div>
+                    <div class="review-content-clean">
+                        "Comparing ICSE vs Cambridge was overwhelming until we found this converter. The cost analysis section saved us from making a costly mistake. It's like having an education consultant for free!"
+                    </div>
+                    <div class="review-rating-clean">⭐⭐⭐⭐⭐</div>
+                    <div class="review-time-clean">2 months ago</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add smooth scrolling for anchor links
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click tracking for analytics
+            document.querySelector('.start-btn').addEventListener('click', function() {
+                console.log('Start Conversion button clicked');
+            });
+
+            document.querySelector('.cta-btn').addEventListener('click', function() {
+                console.log('Footer CTA button clicked');
+            });
+
+            // Add hover effects for feature cards
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Dynamic stats counter animation
+            const statNumbers = document.querySelectorAll('.stat-number');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+                        const finalNumber = target.textContent;
+                        animateNumber(target, finalNumber);
+                        observer.unobserve(target);
+                    }
+                });
+            });
+
+            statNumbers.forEach(stat => observer.observe(stat));
+        });
+
+        function animateNumber(element, finalText) {
+            if (finalText.includes('%')) {
+                const number = parseFloat(finalText);
+                animateCount(element, 0, number, '%');
+            } else if (finalText.includes('+')) {
+                const number = parseInt(finalText.replace(/[^\d]/g, ''));
+                animateCount(element, 0, number, '+');
+            } else {
+                const number = parseInt(finalText);
+                animateCount(element, 0, number, '');
+            }
+        }
+
+        function animateCount(element, start, end, suffix) {
+            const duration = 2000;
+            const increment = (end - start) / (duration / 16);
+            let current = start;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= end) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                
+                if (suffix === '%') {
+                    element.textContent = current.toFixed(1) + suffix;
+                } else if (suffix === '+') {
+                    element.textContent = Math.floor(current).toLocaleString() + suffix;
+                } else {
+                    element.textContent = Math.floor(current).toString();
+                }
+            }, 16);
+        }
+    </script>
+</body>
+</html>
