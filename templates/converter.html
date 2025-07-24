@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curriculum Comparison Tool - II Tutions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', 'Georgia', serif;
+            background: #f5f5f0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .notebook-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border: 1px solid #e0e0e0;
+            position: relative;
+            padding: 60px 80px 60px 120px;
+            min-height: 800px;
+        }
+
+        .notebook-holes {
+            position: absolute;
+            left: 25px;
+            top: 80px;
+            bottom: 80px;
+            width: 20px;
+            min-height: calc(100vh - 100px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .hole {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #f8f8f8;
+            border: 1px solid #d0d0d0;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        .margin-line {
+            position: absolute;
+            left: 80px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: #0066cc;
+            min-height: 100vh;
+        }
+
+        .back-button-container {
+            position: relative;
+            z-index: 10;
+            margin-bottom: 20px;
+        }
+
+        .btn-back {
+            background: white;
+            color: #4A90E2;
+            border: 2px solid #4A90E2;
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            font-family: 'Times New Roman', serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-back:hover {
+            background: #f8f9ff;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 10;
+            border-bottom: 2px solid #000;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #000000;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #333333;
+            font-size: 1rem;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        /* FORM SECTION */
+        .form-section {
+            margin-bottom: 50px;
+            position: relative;
+            z-index: 10;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            gap: 20px;
+        }
+
+        .form-label {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #000000;
+            min-width: 150px;
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding-top: 12px;
+        }
+
+        .dropdown {
+            position: relative;
+            min-width: 300px;
+            flex: 1;
+        }
+
+        .dropdown-btn {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 1rem;
+            background: white;
+            border: 2px solid #4A90E2;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: border-color 0.1s ease;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .dropdown-btn:hover {
+            border-color: #357ABD;
+            box-shadow: 0 2px 4px rgba(74, 144, 226, 0.2);
+        }
+
+        .dropdown-btn.active {
+            border-color: #357ABD;
+            box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+        }
+
+        .dropdown-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #f5f5f5;
+            border-color: #ddd;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #4A90E2;
+            border-radius: 4px;
+            margin-top: 2px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.1s ease;
+            border-bottom: 1px solid #f0f0f0;
+            font-family: 'Times New Roman', serif;
+            user-select: none;
+        }
+
+        .dropdown-item:hover {
+            background: #f8f9ff;
+        }
+
+        .dropdown-item:active {
+            background: #4A90E2;
+            color: white;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .arrow {
+            transition: transform 0.1s ease;
+            color: #4A90E2;
+            font-weight: bold;
+        }
+
+        .arrow.rotate {
+            transform: rotate(180deg);
+        }
+
+        .stream-group {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9ff;
+            border-radius: 4px;
+            border: 1px solid #4A90E2;
+            margin-left: 170px;
+        }
+
+        .stream-group.show {
+            display: block;
+        }
+
+        .stream-label {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stream-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .stream-option {
+            padding: 8px 16px;
+            background: white;
+            border: 2px solid #4A90E2;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+            font-family: 'Times New Roman', serif;
+            user-select: none;
+        }
+
+        .stream-option:hover {
+            border-color: #357ABD;
+            background: #f0f4ff;
+        }
+
+        .stream-option:active {
+            transform: scale(0.98);
+        }
+
+        .stream-option.selected {
+            background: #4A90E2;
+            color: white;
+            border-color: #4A90E2;
+        }
+
+        .compare-button-container {
+            display: none;
+            justify-content: center;
+            margin-top: 60px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .compare-button-container.show {
+            display: flex;
+        }
+
+        .btn-compare {
+            background: #4A90E2;
+            color: white;
+            padding: 15px 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: 2px solid #4A90E2;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            font-family: 'Times New Roman', serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-compare:hover {
+            background: #357ABD;
+            transform: translateY(-1px);
+        }
+
+        .btn-compare:disabled {
+            background: #ccc;
+            border-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* RESULTS SECTION */
+        .results-section {
+            display: none;
+            position: relative;
+            z-index: 10;
+            margin: 50px 20px;
+            padding: 30px;
+            border: 2px solid #000;
+            background: #fff;
+            border-radius: 4px;
+        }
+
+        .results-section.show {
+            display: block;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 20px;
+        }
+
+        .results-title {
+            font-size: 1.8rem;
+            color: #000000;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .results-subtitle {
+            font-size: 1.1rem;
+            color: #333333;
+            font-style: italic;
+        }
+
+        /* Board comparison header - single header at top */
+        .board-comparison-header {
+            margin-bottom: 0;
+            border: 2px solid #000;
+            border-bottom: none;
+        }
+
+        .board-comparison-header .detailed-table {
+            border: none;
+        }
+
+        .board-comparison-header .detailed-table th {
+            background: #f8f9fa;
+            color: #000;
+            padding: 20px 15px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #000;
+            border-right: 2px solid #000;
+        }
+
+        .board-comparison-header .detailed-table th.aspect-column {
+            width: 25%;
+            background: #e9ecef;
+        }
+
+        .board-comparison-header .detailed-table th:nth-child(2) {
+            width: 37.5%;
+        }
+
+        .board-comparison-header .detailed-table th:nth-child(3) {
+            width: 37.5%;
+            border-right: none;
+        }
+
+        /* ACCORDION STYLES */
+        .accordion-container {
+            margin: 20px 0;
+        }
+
+        .accordion-item {
+            margin-bottom: 0;
+            border: 2px solid #000;
+            border-bottom: none;
+            border-top: none;
+            overflow: hidden;
+        }
+
+        .accordion-item:last-child {
+            border-bottom: 2px solid #000;
+        }
+
+        /* First 2 categories - static, no dropdown, no blue header */
+        .accordion-item.static-section {
+            border-radius: 0;
+        }
+
+        .accordion-item.static-section:nth-child(3) {
+            margin-bottom: 20px;
+            border-bottom: 2px solid #000;
+        }
+
+        /* Remaining categories - collapsible */
+        .accordion-item.collapsible-section {
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border-bottom: 2px solid #000;
+            border-top: 2px solid #000;
+        }
+
+        .accordion-header {
+            background: #4A90E2;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Times New Roman', serif;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+            user-select: none;
+            position: relative;
+        }
+
+        /* Static headers (first 2) - no interaction */
+        .accordion-header.static-header {
+            cursor: default;
+            justify-content: center;
+        }
+
+        /* Collapsible headers - with interaction */
+        .accordion-header.collapsible-header {
+            cursor: pointer;
+        }
+
+        .accordion-header.collapsible-header:hover {
+            background: #357ABD;
+        }
+
+        .accordion-header.expanded {
+            background: #357ABD;
+        }
+
+        .accordion-header.loading::after {
+            content: '';
+            position: absolute;
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .accordion-arrow {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+            color: white;
+        }
+
+        .accordion-header.expanded .accordion-arrow {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            display: none;
+            background: white;
+            padding: 0;
+        }
+
+        .accordion-content.show {
+            display: block;
+        }
+
+        /* Brief Content Styling */
+        .brief-content {
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #4A90E2;
+            margin: 0;
+            font-style: italic;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Detailed Table Styling - 3 COLUMN LAYOUT WITH PROPER LINES */
+        .detailed-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .detailed-table th {
+            background: #f8f9fa;
+            color: #000;
+            padding: 20px 15px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #000;
+            border-right: 2px solid #000;
+        }
+
+        .detailed-table th:last-child {
+            border-right: none;
+        }
+
+        .detailed-table td {
+            padding: 20px;
+            vertical-align: top;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            border-bottom: 2px solid #000;
+            border-right: 2px solid #000;
+        }
+
+        .detailed-table td:last-child {
+            border-right: none;
+        }
+
+        .detailed-table td.aspect-name {
+            width: 25%;
+            background: #f8f9fa;
+            font-weight: 700;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detailed-table td.board-content:first-of-type {
+            width: 37.5%;
+        }
+
+        .detailed-table td.board-content:last-of-type {
+            width: 37.5%;
+        }
+
+        /* Add horizontal line between first and second categories */
+        .accordion-item.static-section:nth-child(2) .detailed-table td {
+            border-bottom: 2px solid #000;
+        }
+
+        .accordion-item.static-section:nth-child(3) .detailed-table td {
+            border-bottom: 2px solid #000;
+        }
+
+        .board-content {
+            color: #000;
+            text-align: justify;
+        }
+
+        .board-content p {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .board-content ul {
+            margin: 0;
+            padding-left: 20px;
+            list-style-type: disc;
+        }
+
+        .board-content li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .loading-message {
+            text-align: center;
+            padding: 60px;
+            font-size: 1.1rem;
+            color: #333;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4A90E2;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 15px;
+        }
+
+        .success-message {
+            background: #d1fae5;
+            border: 2px solid #000;
+            color: #065f46;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+            text-align: center;
+            font-family: 'Times New Roman', serif;
+            font-weight: 600;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            border: 2px solid #000;
+            color: #dc2626;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+            text-align: center;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .validation-message {
+            background: #fee2e2;
+            border: 2px solid #fecaca;
+            color: #dc2626;
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin: 15px 20px;
+            font-size: 0.9rem;
+            display: none;
+            font-family: 'Times New Roman', serif;
+            position: relative;
+            z-index: 10;
+        }
+
+        .validation-message.show {
+            display: block;
+        }
+
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .notebook-container {
+                padding: 40px 30px 40px 110px;
+                margin: 0 5px;
+            }
+
+            .accordion-header {
+                padding: 15px;
+                font-size: 1rem;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .detailed-table {
+                font-size: 0.85rem;
+                display: block;
+                overflow-x: auto;
+            }
+
+            .detailed-table thead,
+            .detailed-table tbody,
+            .detailed-table th,
+            .detailed-table td,
+            .detailed-table tr {
+                display: block;
+            }
+
+            .detailed-table thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+            .detailed-table tr {
+                border: 1px solid #dee2e6;
+                margin-bottom: 15px;
+                padding: 15px;
+                border-radius: 4px;
+                background: white;
+            }
+
+            .detailed-table td {
+                border: none;
+                padding: 10px 0;
+                text-align: left !important;
+                white-space: normal;
+                font-size: 0.9rem;
+            }
+
+            .detailed-table td:first-child {
+                background: #000;
+                color: white;
+                padding: 12px;
+                margin-bottom: 10px;
+                border-radius: 4px;
+                font-weight: bold;
+                text-align: center !important;
+                font-size: 1rem;
+            }
+
+            .detailed-table td:nth-child(2):before {
+                content: "From Board: ";
+                font-weight: bold;
+                color: #000;
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            .detailed-table td:nth-child(3):before {
+                content: "To Board: ";
+                font-weight: bold;
+                color: #000;
+                display: block;
+                margin-bottom: 5px;
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="notebook-container">
+        <div class="notebook-holes">
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+        </div>
+        
+        <div class="margin-line"></div>
+        
+        <div class="back-button-container">
+            <a href="/" class="btn-back">← Back</a>
+        </div>
+        
+        <div class="header">
+            <h1 class="section-title">Curriculum Comparison Tool</h1>
+            <p class="section-subtitle">Compare comprehensive differences between education boards</p>
+        </div>
+        
+        <div class="validation-message" id="validationMessage"></div>
+        
+        <!-- FORM SECTION -->
+        <div class="form-section" id="formSection">
+            <div class="form-group">
+                <label class="form-label">From Board</label>
+                <div class="dropdown" data-dropdown="fromBoard">
+                    <button class="dropdown-btn" type="button">
+                        <span id="fromBoardText">Select Current Board</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <div class="dropdown-content" id="fromBoardDropdown">
+                        <div class="dropdown-item" data-value="CBSE">CBSE (Central Board of Secondary Education)</div>
+                        <div class="dropdown-item" data-value="ICSE">ICSE (Indian Certificate of Secondary Education)</div>
+                        <div class="dropdown-item" data-value="IB">IB (International Baccalaureate)</div>
+                        <div class="dropdown-item" data-value="Cambridge">Cambridge International (IGCSE/A-Levels)</div>
+                        <div class="dropdown-item" data-value="State Board">State Board</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">To Board</label>
+                <div class="dropdown" data-dropdown="toBoard">
+                    <button class="dropdown-btn" type="button">
+                        <span id="toBoardText">Select Target Board</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <div class="dropdown-content" id="toBoardDropdown">
+                        <div class="dropdown-item" data-value="CBSE">CBSE (Central Board of Secondary Education)</div>
+                        <div class="dropdown-item" data-value="ICSE">ICSE (Indian Certificate of Secondary Education)</div>
+                        <div class="dropdown-item" data-value="IB">IB (International Baccalaureate)</div>
+                        <div class="dropdown-item" data-value="Cambridge">Cambridge International (IGCSE/A-Levels)</div>
+                        <div class="dropdown-item" data-value="State Board">State Board</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Grade</label>
+                <div class="dropdown" data-dropdown="grade">
+                    <button class="dropdown-btn" type="button">
+                        <span id="gradeText">Select Grade</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <div class="dropdown-content" id="gradeDropdown">
+                        <div class="dropdown-item" data-value="Grade 1">Grade 1</div>
+                        <div class="dropdown-item" data-value="Grade 2">Grade 2</div>
+                        <div class="dropdown-item" data-value="Grade 3">Grade 3</div>
+                        <div class="dropdown-item" data-value="Grade 4">Grade 4</div>
+                        <div class="dropdown-item" data-value="Grade 5">Grade 5</div>
+                        <div class="dropdown-item" data-value="Grade 6">Grade 6</div>
+                        <div class="dropdown-item" data-value="Grade 7">Grade 7</div>
+                        <div class="dropdown-item" data-value="Grade 8">Grade 8</div>
+                        <div class="dropdown-item" data-value="Grade 9">Grade 9</div>
+                        <div class="dropdown-item" data-value="Grade 10">Grade 10</div>
+                        <div class="dropdown-item" data-value="Grade 11">Grade 11</div>
+                        <div class="dropdown-item" data-value="Grade 12">Grade 12</div>
+                    </div>
+                </div>
+                
+                <div class="stream-group" id="streamGroup">
+                    <div class="stream-label">Select Stream:</div>
+                    <div class="stream-options">
+                        <div class="stream-option" data-stream="Science">Science</div>
+                        <div class="stream-option" data-stream="Commerce">Commerce</div>
+                        <div class="stream-option" data-stream="Humanities">Humanities</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Subject</label>
+                <div class="dropdown" data-dropdown="subject">
+                    <button class="dropdown-btn" type="button" id="subjectBtn" disabled>
+                        <span id="subjectText">Select Subject</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <div class="dropdown-content" id="subjectDropdown">
+                        <!-- Subjects will be populated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="compare-button-container" id="compareButtonContainer">
+            <button class="btn-compare" id="compareBtn">
+                <span id="compareBtnText">Compare Boards</span>
+            </button>
+        </div>
+
+        <!-- RESULTS SECTION -->
+        <div class="results-section" id="resultsSection">
+            <div class="results-header">
+                <h2 class="results-title">Professional Curriculum Comparison</h2>
+                <div class="results-subtitle" id="comparisonSubtitle">
+                    Detailed comparison results
+                </div>
+            </div>
+
+            <div id="resultsContent">
+                <!-- Accordion will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        const state = {
+            fromBoard: '',
+            toBoard: '',
+            grade: '',
+            subject: '',
+            stream: ''
+        };
+
+        // Global variables for background loading
+        let detailedCategories = [];
+        let isDetailedDataLoaded = false;
+
+        // Subject data
+        const subjectData = {
+            'CBSE': {
+                'Grade 1': ['English', 'Mathematics', 'Hindi', 'Environmental Studies', 'Art Education'],
+                'Grade 2': ['English', 'Mathematics', 'Hindi', 'Environmental Studies', 'Art Education'],
+                'Grade 3': ['English', 'Mathematics', 'Hindi', 'Environmental Studies', 'Computer Science'],
+                'Grade 4': ['English', 'Mathematics', 'Hindi', 'Environmental Studies', 'Computer Science'],
+                'Grade 5': ['English', 'Mathematics', 'Hindi', 'Environmental Studies', 'Computer Science'],
+                'Grade 6': ['English', 'Mathematics', 'Hindi', 'Science', 'Social Science', 'Sanskrit'],
+                'Grade 7': ['English', 'Mathematics', 'Hindi', 'Science', 'Social Science', 'Sanskrit'],
+                'Grade 8': ['English', 'Mathematics', 'Hindi', 'Science', 'Social Science', 'Sanskrit'],
+                'Grade 9': ['English', 'Mathematics', 'Hindi', 'Science', 'Social Science', 'Computer Science', 'Physical Education'],
+                'Grade 10': ['English', 'Mathematics', 'Hindi', 'Science', 'Social Science', 'Computer Science', 'Physical Education'],
+                'Grade 11': {
+                    'Science': ['English Core', 'Physics', 'Chemistry', 'Mathematics', 'Biology/Computer Science', 'Physical Education'],
+                    'Commerce': ['English Core', 'Accountancy', 'Business Studies', 'Economics', 'Mathematics/Applied Mathematics', 'Physical Education'],
+                    'Humanities': ['English Core', 'History', 'Political Science', 'Geography', 'Psychology/Sociology', 'Physical Education']
+                },
+                'Grade 12': {
+                    'Science': ['English Core', 'Physics', 'Chemistry', 'Mathematics', 'Biology/Computer Science', 'Physical Education'],
+                    'Commerce': ['English Core', 'Accountancy', 'Business Studies', 'Economics', 'Mathematics/Applied Mathematics', 'Physical Education'],
+                    'Humanities': ['English Core', 'History', 'Political Science', 'Geography', 'Psychology/Sociology', 'Physical Education']
+                }
+            },
+            'ICSE': {
+                'Grade 1': ['English', 'Mathematics', 'Hindi/Second Language', 'Environmental Studies', 'Art & Craft'],
+                'Grade 2': ['English', 'Mathematics', 'Hindi/Second Language', 'Environmental Studies', 'Art & Craft'],
+                'Grade 3': ['English', 'Mathematics', 'Hindi/Second Language', 'Environmental Studies', 'Computer Applications'],
+                'Grade 4': ['English', 'Mathematics', 'Hindi/Second Language', 'Environmental Studies', 'Computer Applications'],
+                'Grade 5': ['English', 'Mathematics', 'Hindi/Second Language', 'Environmental Studies', 'Computer Applications'],
+                'Grade 6': ['English', 'Mathematics', 'Hindi/Second Language', 'History & Civics', 'Geography', 'Physics', 'Chemistry', 'Biology'],
+                'Grade 7': ['English', 'Mathematics', 'Hindi/Second Language', 'History & Civics', 'Geography', 'Physics', 'Chemistry', 'Biology'],
+                'Grade 8': ['English', 'Mathematics', 'Hindi/Second Language', 'History & Civics', 'Geography', 'Physics', 'Chemistry', 'Biology'],
+                'Grade 9': ['English', 'Mathematics', 'Hindi/Second Language', 'History & Civics', 'Geography', 'Physics', 'Chemistry', 'Biology', 'Computer Applications'],
+                'Grade 10': ['English', 'Mathematics', 'Hindi/Second Language', 'History & Civics', 'Geography', 'Physics', 'Chemistry', 'Biology', 'Computer Applications'],
+                'Grade 11': {
+                    'Science': ['English', 'Physics', 'Chemistry', 'Mathematics', 'Biology/Computer Science', 'Economics'],
+                    'Commerce': ['English', 'Mathematics', 'Accounts', 'Commerce', 'Economics', 'Computer Science'],
+                    'Humanities': ['English', 'History', 'Political Science', 'Geography', 'Sociology', 'Economics']
+                },
+                'Grade 12': {
+                    'Science': ['English', 'Physics', 'Chemistry', 'Mathematics', 'Biology/Computer Science', 'Economics'],
+                    'Commerce': ['English', 'Mathematics', 'Accounts', 'Commerce', 'Economics', 'Computer Science'],
+                    'Humanities': ['English', 'History', 'Political Science', 'Geography', 'Sociology', 'Economics']
+                }
+            },
+            'IB': {
+                'Grade 1': ['Language & Literature', 'Mathematics', 'Arts', 'Social Studies', 'Science', 'Personal & Social Education'],
+                'Grade 2': ['Language & Literature', 'Mathematics', 'Arts', 'Social Studies', 'Science', 'Personal & Social Education'],
+                'Grade 3': ['Language & Literature', 'Mathematics', 'Arts', 'Social Studies', 'Science', 'Personal & Social Education'],
+                'Grade 4': ['Language & Literature', 'Mathematics', 'Arts', 'Social Studies', 'Science', 'Personal & Social Education'],
+                'Grade 5': ['Language & Literature', 'Mathematics', 'Arts', 'Social Studies', 'Science', 'Personal & Social Education'],
+                'Grade 6': ['Language & Literature', 'Language Acquisition', 'Individuals & Societies', 'Sciences', 'Mathematics', 'Arts', 'Physical & Health Education', 'Design'],
+                'Grade 7': ['Language & Literature', 'Language Acquisition', 'Individuals & Societies', 'Sciences', 'Mathematics', 'Arts', 'Physical & Health Education', 'Design'],
+                'Grade 8': ['Language & Literature', 'Language Acquisition', 'Individuals & Societies', 'Sciences', 'Mathematics', 'Arts', 'Physical & Health Education', 'Design'],
+                'Grade 9': ['Language & Literature', 'Language Acquisition', 'Individuals & Societies', 'Sciences', 'Mathematics', 'Arts', 'Physical & Health Education', 'Design'],
+                'Grade 10': ['Language & Literature', 'Language Acquisition', 'Individuals & Societies', 'Sciences', 'Mathematics', 'Arts', 'Physical & Health Education', 'Design'],
+                'Grade 11': {
+                    'Science': ['English A: Literature', 'Mathematics: Analysis & Approaches', 'Physics', 'Chemistry', 'Biology', 'Theory of Knowledge'],
+                    'Commerce': ['English A: Literature', 'Mathematics: Applications & Interpretation', 'Economics', 'Business Management', 'Psychology', 'Theory of Knowledge'],
+                    'Humanities': ['English A: Literature', 'History', 'Geography', 'Psychology', 'Economics', 'Theory of Knowledge']
+                },
+                'Grade 12': {
+                    'Science': ['English A: Literature', 'Mathematics: Analysis & Approaches', 'Physics', 'Chemistry', 'Biology', 'Extended Essay'],
+                    'Commerce': ['English A: Literature', 'Mathematics: Applications & Interpretation', 'Economics', 'Business Management', 'Psychology', 'Extended Essay'],
+                    'Humanities': ['English A: Literature', 'History', 'Geography', 'Psychology', 'Economics', 'Extended Essay']
+                }
+            },
+            'Cambridge': {
+                'Grade 1': ['English', 'Mathematics', 'Science', 'ICT', 'Art & Design', 'Physical Education'],
+                'Grade 2': ['English', 'Mathematics', 'Science', 'ICT', 'Art & Design', 'Physical Education'],
+                'Grade 3': ['English', 'Mathematics', 'Science', 'ICT', 'Art & Design', 'Physical Education'],
+                'Grade 4': ['English', 'Mathematics', 'Science', 'ICT', 'Art & Design', 'Physical Education'],
+                'Grade 5': ['English', 'Mathematics', 'Science', 'ICT', 'Art & Design', 'Physical Education'],
+                'Grade 6': ['English', 'Mathematics', 'Science', 'ICT', 'Art & Design', 'Physical Education', 'Global Perspectives'],
+                'Grade 7': ['English', 'Mathematics', 'Science', 'ICT', 'Art & Design', 'Physical Education', 'Global Perspectives'],
+                'Grade 8': ['English', 'Mathematics', 'Science', 'ICT', 'Art & Design', 'Physical Education', 'Global Perspectives'],
+                'Grade 9': ['English Language', 'Mathematics', 'Biology', 'Chemistry', 'Physics', 'Computer Science', 'Economics', 'Business Studies', 'Geography', 'History'],
+                'Grade 10': ['English Language', 'Mathematics', 'Biology', 'Chemistry', 'Physics', 'Computer Science', 'Economics', 'Business Studies', 'Geography', 'History'],
+                'Grade 11': {
+                    'Science': ['English Language', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science'],
+                    'Commerce': ['English Language', 'Mathematics', 'Economics', 'Business Studies', 'Accounting', 'Computer Science'],
+                    'Humanities': ['English Language', 'History', 'Geography', 'Psychology', 'Sociology', 'Global Perspectives']
+                },
+                'Grade 12': {
+                    'Science': ['English Language', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science'],
+                    'Commerce': ['English Language', 'Mathematics', 'Economics', 'Business Studies', 'Accounting', 'Computer Science'],
+                    'Humanities': ['English Language', 'History', 'Geography', 'Psychology', 'Sociology', 'Global Perspectives']
+                }
+            },
+            'State Board': {
+                'Grade 1': ['English', 'Mathematics', 'Regional Language 1', 'Regional Language 2', 'Environmental Studies'],
+                'Grade 2': ['English', 'Mathematics', 'Regional Language 1', 'Regional Language 2', 'Environmental Studies'],
+                'Grade 3': ['English', 'Mathematics', 'Regional Language 1', 'Regional Language 2', 'Environmental Studies'],
+                'Grade 4': ['English', 'Mathematics', 'Regional Language 1', 'Regional Language 2', 'Environmental Studies', 'General Knowledge'],
+                'Grade 5': ['English', 'Mathematics', 'Regional Language 1', 'Regional Language 2', 'Environmental Studies', 'General Knowledge'],
+                'Grade 6': ['English', 'Mathematics', 'Regional Language 1', 'Regional Language 2', 'Science', 'Social Studies'],
+                'Grade 7': ['English', 'Mathematics', 'Regional Language 1', 'Regional Language 2', 'Science', 'Social Studies'],
+                'Grade 8': ['English', 'Mathematics', 'Regional Language 1', 'Regional Language 2', 'Science', 'Social Studies'],
+                'Grade 9': ['English', 'Mathematics', 'Regional Language 1', 'Regional Language 2', 'Science', 'Social Studies', 'Optional Subject'],
+                'Grade 10': ['English', 'Mathematics', 'Regional Language 1', 'Regional Language 2', 'Science', 'Social Studies', 'Optional Subject'],
+                'Grade 11': {
+                    'Science': ['English', 'Regional Language', 'Mathematics', 'Physics', 'Chemistry', 'Biology'],
+                    'Commerce': ['English', 'Regional Language', 'Mathematics', 'Accountancy', 'Economics', 'Business Studies'],
+                    'Humanities': ['English', 'Regional Language', 'History', 'Geography', 'Political Science', 'Economics']
+                },
+                'Grade 12': {
+                    'Science': ['English', 'Regional Language', 'Mathematics', 'Physics', 'Chemistry', 'Biology'],
+                    'Commerce': ['English', 'Regional Language', 'Mathematics', 'Accountancy', 'Economics', 'Business Studies'],
+                    'Humanities': ['English', 'Regional Language', 'History', 'Geography', 'Political Science', 'Economics']
+                }
+            }
+        };
+
+        // Cache DOM elements
+        const elements = {};
+
+        // Initialize elements on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            elements.compareBtn = document.getElementById('compareBtn');
+            elements.compareBtnText = document.getElementById('compareBtnText');
+            elements.compareButtonContainer = document.getElementById('compareButtonContainer');
+            elements.validationMessage = document.getElementById('validationMessage');
+            elements.streamGroup = document.getElementById('streamGroup');
+            elements.subjectBtn = document.getElementById('subjectBtn');
+            elements.subjectDropdown = document.getElementById('subjectDropdown');
+            elements.resultsSection = document.getElementById('resultsSection');
+            elements.resultsContent = document.getElementById('resultsContent');
+            elements.comparisonSubtitle = document.getElementById('comparisonSubtitle');
+            
+            if (elements.compareBtn) {
+                elements.compareBtn.addEventListener('click', compareBoards);
+            }
+            
+            disableSubjectDropdown();
+        });
+
+        // INSTANT ACCORDION with proper separation
+        async function compareBoards() {
+            const errors = validateInputs();
+            
+            if (errors.length > 0) {
+                showValidationMessage(errors.join('. '));
+                return;
+            }
+            
+            hideValidationMessage();
+            
+            const resultsSection = elements.resultsSection;
+            const comparisonSubtitle = elements.comparisonSubtitle;
+            
+            resultsSection.classList.add('show');
+            
+            const { fromBoard, toBoard, grade, subject, stream } = state;
+            let subtitleText = `${fromBoard} vs ${toBoard} - ${subject} (${grade})`;
+            if (stream) subtitleText += ` - ${stream}`;
+            comparisonSubtitle.textContent = subtitleText;
+            
+            // INSTANT DISPLAY WITHOUT ANY LOADING DELAYS
+            displayInstantBriefAccordion();
+            
+            resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            loadDetailedDataInBackground();
+        }
+
+        function displayInstantBriefAccordion() {
+            const resultsContent = elements.resultsContent;
+            const briefCategories = generateBriefCategories();
+            
+            let accordionHTML = '<div class="accordion-container">';
+            
+            // Add single board comparison header only once at the top
+            accordionHTML += `
+                <div class="board-comparison-header">
+                    <table class="detailed-table">
+                        <thead>
+                            <tr>
+                                <th class="aspect-column">ASPECT</th>
+                                <th>${state.fromBoard}</th>
+                                <th>${state.toBoard}</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            `;
+            
+            briefCategories.forEach((category, index) => {
+                if (index < 2) {
+                    // FIRST 2 CATEGORIES - Static, always visible, no dropdown arrow, no blue header
+                    accordionHTML += `
+                        <div class="accordion-item static-section">
+                            <div class="accordion-content show" id="accordion-content-${index}">
+                                ${generateDetailedContent(index)}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // REMAINING CATEGORIES - Collapsible with dropdown arrows
+                    accordionHTML += `
+                        <div class="accordion-item collapsible-section">
+                            <div class="accordion-header collapsible-header" 
+                                 onclick="toggleAccordion(${index})" 
+                                 data-index="${index}">
+                                <span>${category.name}</span>
+                                <span class="accordion-arrow">▼</span>
+                            </div>
+                            <div class="accordion-content" id="accordion-content-${index}">
+                                ${generateDetailedContent(index)}
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            accordionHTML += '</div>';
+            resultsContent.innerHTML = accordionHTML;
+            console.log('✅ Instant accordion displayed with proper 3-column layout');
+        }
+
+        function generateBriefCategories() {
+            return [
+                {
+                    name: 'Syllabus Comparison & Topic Coverage',
+                    brief: `Key differences in curriculum content, topic sequence, and depth of coverage between ${state.fromBoard} and ${state.toBoard} for ${state.subject} in ${state.grade}.`
+                },
+                {
+                    name: 'Educational Philosophy & Learning Approach', 
+                    brief: `Fundamental teaching methodologies and learning philosophies that distinguish ${state.fromBoard} from ${state.toBoard} educational systems.`
+                },
+                {
+                    name: 'Programme Structure & Year Classifications',
+                    brief: `Grade organization, progression patterns, and structural differences between the two education systems.`
+                },
+                {
+                    name: 'Assessment Methods & Grading Systems',
+                    brief: `Evaluation techniques, examination formats, and grading criteria used by each board.`
+                },
+                {
+                    name: 'Assessment Criteria & Objectives Framework',
+                    brief: `Learning objectives, assessment standards, and performance measurement approaches.`
+                },
+                {
+                    name: 'Paper Types & Examination Components',
+                    brief: `Question paper formats, examination structure, and assessment component breakdown.`
+                },
+                {
+                    name: 'Teaching Methodologies & Pedagogical Approaches',
+                    brief: `Classroom instruction methods and pedagogical strategies employed by each system.`
+                },
+                {
+                    name: 'Learning Objectives & Outcomes',
+                    brief: `Expected student learning outcomes and skill development targets for each curriculum.`
+                },
+                {
+                    name: 'Textbooks, Resources & Materials',
+                    brief: `Required textbooks, supplementary materials, and learning resources for students.`
+                },
+                {
+                    name: 'Homework, Assignments & Project Requirements',
+                    brief: `Assignment patterns, project work, and homework expectations for students.`
+                },
+                {
+                    name: 'Practical Components & Laboratory Work',
+                    brief: `Hands-on learning, laboratory requirements, and practical examination components.`
+                },
+                {
+                    name: 'Technology Integration & Digital Learning',
+                    brief: `Use of technology, digital tools, and online learning platforms in curriculum delivery.`
+                },
+                {
+                    name: 'Language Requirements & Communication Skills',
+                    brief: `Language learning expectations, communication skill development, and multilingual approaches.`
+                },
+                {
+                    name: 'Cultural Context & Global Perspective',
+                    brief: `Cultural integration, international outlook, and global citizenship development.`
+                },
+                {
+                    name: 'School Types & Institutional Requirements',
+                    brief: `Types of schools offering each curriculum and institutional infrastructure requirements.`
+                },
+                {
+                    name: 'Teacher Training & Professional Development',
+                    brief: `Educator qualification requirements, training programs, and ongoing professional development.`
+                },
+                {
+                    name: 'Class Size & Student-Teacher Ratios',
+                    brief: `Classroom size expectations, student-teacher interaction patterns, and learning environment.`
+                },
+                {
+                    name: 'University Recognition & Pathways',
+                    brief: `Higher education acceptance, university recognition, and career pathway differences.`
+                },
+                {
+                    name: 'Career Preparation & Skill Development',
+                    brief: `Vocational preparation, skill building, and career readiness programs.`
+                },
+                {
+                    name: 'Extracurricular Integration & Holistic Development',
+                    brief: `Co-curricular activities, sports, arts, and overall personality development approaches.`
+                },
+                {
+                    name: 'Student Support Services & Guidance',
+                    brief: `Counseling services, academic support, and student welfare programs.`
+                },
+                {
+                    name: 'Parent Involvement & Communication',
+                    brief: `Parent engagement expectations, communication channels, and family involvement in education.`
+                },
+                {
+                    name: 'Cost Implications & Financial Requirements',
+                    brief: `Fee structures, additional costs, and financial investment required for each curriculum.`
+                },
+                {
+                    name: 'Transition Challenges & Adaptation Period',
+                    brief: `Common difficulties faced during curriculum transition and adaptation strategies.`
+                },
+                {
+                    name: 'Supplementary Education & Additional Support',
+                    brief: `Tuition requirements, coaching needs, and additional educational support systems.`
+                },
+                {
+                    name: 'Quality Assurance & Standards Monitoring',
+                    brief: `Quality control measures, accreditation processes, and educational standards maintenance.`
+                },
+                {
+                    name: 'International Mobility & Transferability',
+                    brief: `Global recognition, credit transfer options, and international student mobility.`
+                },
+                {
+                    name: 'Timeline & Implementation Strategy',
+                    brief: `Academic calendar differences, implementation schedules, and transition timelines.`
+                },
+                {
+                    name: 'Subject Flexibility & Options',
+                    brief: `Elective choices, subject combinations, and curriculum customization options.`
+                },
+                {
+                    name: 'Examination Sessions & Result Declaration',
+                    brief: `Exam schedules, result announcement patterns, and assessment timelines.`
+                }
+            ];
+        }
+
+        function generateDetailedContent(index) {
+            if (index < 2 && isDetailedDataLoaded && detailedCategories[index]) {
+                return generateDetailedContentFromAPI(detailedCategories[index]);
+            } else if (index < 2) {
+                return `
+                    <table class="detailed-table">
+                        <tbody>
+                            <tr>
+                                <td class="aspect-name">${generateBriefCategories()[index].name}</td>
+                                <td class="board-content">
+                                    <p><strong>⏳ Loading detailed comparison...</strong></p>
+                                    <p>Fetching comprehensive data from Claude API...</p>
+                                </td>
+                                <td class="board-content">
+                                    <p><strong>⏳ Loading detailed comparison...</strong></p>
+                                    <p>Fetching comprehensive data from Claude API...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `;
+            } else {
+                const category = generateBriefCategories()[index];
+                return `
+                    <div class="brief-content">
+                        <p><strong>📋 Brief Overview:</strong></p>
+                        <p>${category.brief}</p>
+                        <p><em>💡 Click to expand for detailed comparison data (loading in background...)</em></p>
+                    </div>
+                `;
+            }
+        }
+
+        async function loadDetailedDataInBackground() {
+            console.log('🔄 Loading detailed data in background...');
+            
+            try {
+                const response = await fetch('/api/generate-comprehensive-comparison', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        fromBoard: state.fromBoard,
+                        toBoard: state.toBoard,
+                        grade: state.grade,
+                        subject: state.subject,
+                        stream: state.stream || ''
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.comparison && data.comparison.categories) {
+                    detailedCategories = data.comparison.categories;
+                    isDetailedDataLoaded = true;
+                    console.log(`✅ Detailed data loaded: ${detailedCategories.length} categories`);
+                    
+                    updateFirstTwoCategoriesWithRealData();
+                    updateLoadingIndicators();
+                } else {
+                    console.error('Failed to load detailed data:', data.error);
+                    showDataLoadError();
+                }
+
+            } catch (error) {
+                console.error('Background loading error:', error);
+                showDataLoadError();
+            }
+        }
+
+        function updateFirstTwoCategoriesWithRealData() {
+            for (let i = 0; i < 2; i++) {
+                const content = document.getElementById(`accordion-content-${i}`);
+                if (content && content.classList.contains('show') && detailedCategories[i]) {
+                    content.innerHTML = generateDetailedContentFromAPI(detailedCategories[i]);
+                }
+            }
+        }
+
+        function showDataLoadError() {
+            for (let i = 0; i < 2; i++) {
+                const content = document.getElementById(`accordion-content-${i}`);
+                if (content && content.innerHTML.includes('Loading detailed comparison')) {
+                    content.innerHTML = `
+                        <table class="detailed-table">
+                            <tbody>
+                                <tr>
+                                    <td class="aspect-name">${generateBriefCategories()[i].name}</td>
+                                    <td class="board-content">
+                                        <p><strong>❌ Error loading detailed data</strong></p>
+                                        <p>Please try again or check your connection.</p>
+                                    </td>
+                                    <td class="board-content">
+                                        <p><strong>❌ Error loading detailed data</strong></p>
+                                        <p>Please try again or check your connection.</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    `;
+                }
+            }
+        }
+
+        function updateLoadingIndicators() {
+            document.querySelectorAll('.accordion-header.loading').forEach(header => {
+                header.classList.remove('loading');
+            });
+            
+            document.querySelectorAll('.brief-content').forEach(content => {
+                if (content.innerHTML.includes('loading in background')) {
+                    content.innerHTML = content.innerHTML.replace(
+                        'loading in background...',
+                        'detailed data ready! ✅'
+                    );
+                }
+            });
+        }
+
+        function toggleAccordion(index) {
+            const header = document.querySelector(`[data-index="${index}"]`);
+            const content = document.getElementById(`accordion-content-${index}`);
+            
+            if (!header || !content) return;
+            
+            const isExpanded = content.classList.contains('show');
+            
+            if (isExpanded) {
+                content.classList.remove('show');
+                header.classList.remove('expanded');
+            } else {
+                content.classList.add('show');
+                header.classList.add('expanded');
+                
+                if (index < 2) {
+                    if (isDetailedDataLoaded && detailedCategories[index] && content.innerHTML.includes('Loading detailed comparison')) {
+                        content.innerHTML = generateDetailedContentFromAPI(detailedCategories[index]);
+                    }
+                } else if (isDetailedDataLoaded && detailedCategories[index]) {
+                    content.innerHTML = generateDetailedContentFromAPI(detailedCategories[index]);
+                } else {
+                    header.classList.add('loading');
+                    content.innerHTML = `
+                        <div class="brief-content">
+                            <p><strong>⏳ Loading detailed comparison...</strong></p>
+                            <p>Please wait while we fetch comprehensive data for this category.</p>
+                        </div>
+                    `;
+                    
+                    const checkInterval = setInterval(() => {
+                        if (isDetailedDataLoaded && detailedCategories[index]) {
+                            clearInterval(checkInterval);
+                            header.classList.remove('loading');
+                            content.innerHTML = generateDetailedContentFromAPI(detailedCategories[index]);
+                        }
+                    }, 1000);
+                }
+            }
+        }
+
+        function generateDetailedContentFromAPI(category) {
+            const fromContent = formatContent(category.fromBoardContent);
+            const toContent = formatContent(category.toBoardContent);
+            
+            return `
+                <table class="detailed-table">
+                    <tbody>
+                        <tr>
+                            <td class="aspect-name">${category.name}</td>
+                            <td class="board-content">${fromContent}</td>
+                            <td class="board-content">${toContent}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+        }
+
+        function formatContent(content) {
+            if (!content) return '<p>No content available</p>';
+            
+            if (content.includes('•')) {
+                const bulletPoints = content.split('•').filter(point => point.trim().length > 0);
+                
+                if (bulletPoints.length === 0) {
+                    return `<p>${content}</p>`;
+                }
+                
+                const listItems = bulletPoints.map(point => `<li>${point.trim()}</li>`).join('');
+                return `<ul style="margin: 0; padding-left: 20px; line-height: 1.6; list-style-type: disc;">${listItems}</ul>`;
+            }
+            
+            const paragraphs = content.split('\n\n').filter(p => p.trim().length > 0);
+            
+            if (paragraphs.length === 0) {
+                return `<p>${content}</p>`;
+            }
+            
+            return paragraphs.map(p => `<p>${p.trim()}</p>`).join('');
+        }
+
+        // Form handling functions
+        function handleDropdownClick(event) {
+            event.stopPropagation();
+            
+            const dropdownElement = event.target.closest('.dropdown');
+            if (!dropdownElement) return;
+            
+            const button = dropdownElement.querySelector('.dropdown-btn');
+            const content = dropdownElement.querySelector('.dropdown-content');
+            const arrow = button.querySelector('.arrow');
+            
+            document.querySelectorAll('.dropdown-content.show').forEach(dropdown => {
+                if (dropdown !== content) {
+                    dropdown.classList.remove('show');
+                    dropdown.previousElementSibling.classList.remove('active');
+                    dropdown.previousElementSibling.querySelector('.arrow').classList.remove('rotate');
+                }
+            });
+            
+            const isOpen = content.classList.contains('show');
+            content.classList.toggle('show', !isOpen);
+            button.classList.toggle('active', !isOpen);
+            arrow.classList.toggle('rotate', !isOpen);
+        }
+
+        function selectOption(event, dropdownType, value, displayText) {
+            event.stopPropagation();
+            
+            const textElement = document.getElementById(dropdownType + 'Text');
+            if (textElement) {
+                textElement.textContent = displayText || value;
+            }
+            
+            state[dropdownType] = value;
+            
+            const dropdown = event.target.closest('.dropdown-content');
+            if (dropdown) {
+                dropdown.classList.remove('show');
+                const button = dropdown.previousElementSibling;
+                button.classList.remove('active');
+                button.querySelector('.arrow').classList.remove('rotate');
+            }
+            
+            requestAnimationFrame(() => {
+                handleSelectionSideEffects(dropdownType, value);
+            });
+        }
+
+        function handleSelectionSideEffects(dropdownType, value) {
+            switch (dropdownType) {
+                case 'grade':
+                    handleGradeSelection(value);
+                    if (value !== 'Grade 11' && value !== 'Grade 12') {
+                        updateSubjects();
+                    }
+                    break;
+                case 'toBoard':
+                    updateSubjects();
+                    break;
+            }
+            
+            hideValidationMessage();
+            updateButtonStates();
+        }
+
+        function handleGradeSelection(grade) {
+            const streamGroup = elements.streamGroup;
+            if (!streamGroup) return;
+            
+            const isHighGrade = grade === 'Grade 11' || grade === 'Grade 12';
+            streamGroup.classList.toggle('show', isHighGrade);
+            
+            if (isHighGrade) {
+                state.stream = '';
+                state.subject = '';
+                const subjectText = document.getElementById('subjectText');
+                if (subjectText) subjectText.textContent = 'Select Subject';
+                clearStreamSelection();
+                disableSubjectDropdown();
+            } else {
+                state.stream = '';
+                clearStreamSelection();
+                state.subject = '';
+                const subjectText = document.getElementById('subjectText');
+                if (subjectText) subjectText.textContent = 'Select Subject';
+            }
+        }
+
+        function selectStream(event, stream) {
+            event.stopPropagation();
+            state.stream = stream;
+            clearStreamSelection();
+            event.target.classList.add('selected');
+            
+            requestAnimationFrame(() => {
+                updateSubjects();
+                updateButtonStates();
+            });
+        }
+
+        function clearStreamSelection() {
+            document.querySelectorAll('.stream-option.selected').forEach(option => {
+                option.classList.remove('selected');
+            });
+        }
+
+        function updateSubjects() {
+            const { toBoard, grade, stream } = state;
+            
+            if (!toBoard || !grade) {
+                disableSubjectDropdown();
+                return;
+            }
+            
+            const boardData = subjectData[toBoard];
+            if (!boardData) {
+                disableSubjectDropdown();
+                return;
+            }
+            
+            let subjects = [];
+            
+            if (grade === 'Grade 11' || grade === 'Grade 12') {
+                if (stream && boardData[grade] && boardData[grade][stream]) {
+                    subjects = boardData[grade][stream];
+                } else {
+                    disableSubjectDropdown();
+                    return;
+                }
+            } else {
+                subjects = boardData[grade] || [];
+            }
+            
+            if (subjects.length === 0) {
+                disableSubjectDropdown();
+                return;
+            }
+            
+            const subjectDropdown = elements.subjectDropdown;
+            const subjectBtn = elements.subjectBtn;
+            
+            if (!subjectDropdown || !subjectBtn) return;
+            
+            const fragment = document.createDocumentFragment();
+            subjects.forEach(subject => {
+                const item = document.createElement('div');
+                item.className = 'dropdown-item';
+                item.textContent = subject;
+                item.dataset.value = subject;
+                fragment.appendChild(item);
+            });
+            
+            subjectDropdown.innerHTML = '';
+            subjectDropdown.appendChild(fragment);
+            
+            subjectBtn.disabled = false;
+            subjectBtn.style.opacity = '1';
+            subjectBtn.style.cursor = 'pointer';
+            
+            state.subject = '';
+            document.getElementById('subjectText').textContent = 'Select Subject';
+            
+            updateButtonStates();
+        }
+
+        function disableSubjectDropdown() {
+            const subjectBtn = elements.subjectBtn;
+            const subjectDropdown = elements.subjectDropdown;
+            
+            if (!subjectBtn || !subjectDropdown) return;
+            
+            subjectBtn.disabled = true;
+            subjectBtn.style.opacity = '0.5';
+            subjectBtn.style.cursor = 'not-allowed';
+            state.subject = '';
+            document.getElementById('subjectText').textContent = 'Select Subject';
+            subjectDropdown.innerHTML = '';
+            
+            updateButtonStates();
+        }
+
+        function updateButtonStates() {
+            const compareButtonContainer = elements.compareButtonContainer;
+            if (!compareButtonContainer) return;
+            
+            const { fromBoard, toBoard, grade, subject, stream } = state;
+            let allSelected = fromBoard && toBoard && grade && subject;
+            
+            if ((grade === 'Grade 11' || grade === 'Grade 12') && !stream) {
+                allSelected = false;
+            }
+            
+            compareButtonContainer.classList.toggle('show', allSelected);
+        }
+
+        function validateInputs() {
+            const { fromBoard, toBoard, grade, subject, stream } = state;
+            const errors = [];
+            
+            if (!fromBoard) errors.push("Please select the current board");
+            if (!toBoard) errors.push("Please select the target board");
+            if (!grade) errors.push("Please select a grade");
+            if ((grade === 'Grade 11' || grade === 'Grade 12') && !stream) {
+                errors.push("Please select a stream for Grade 11/12");
+            }
+            if (!subject) errors.push("Please select a subject");
+            if (fromBoard === toBoard) {
+                errors.push("Please select different boards for comparison");
+            }
+            
+            return errors;
+        }
+
+        function showValidationMessage(message) {
+            const validationMsg = elements.validationMessage;
+            validationMsg.textContent = message;
+            validationMsg.classList.add('show');
+        }
+
+        function hideValidationMessage() {
+            const validationMsg = elements.validationMessage;
+            validationMsg.classList.remove('show');
+        }
+
+        function showError(message) {
+            const resultsContent = elements.resultsContent;
+            resultsContent.innerHTML = `
+                <div class="error-message">
+                    ❌ Error: ${message}<br>
+                    <small>Please try again or contact support if the issue persists.</small>
+                </div>
+            `;
+        }
+
+        // Event delegation for form interactions
+        document.addEventListener('click', function(event) {
+            if (event.target.closest('.dropdown-btn')) {
+                handleDropdownClick(event);
+                return;
+            }
+            
+            if (event.target.classList.contains('dropdown-item')) {
+                const dropdown = event.target.closest('.dropdown');
+                const dropdownType = dropdown.dataset.dropdown;
+                const value = event.target.dataset.value;
+                const displayText = event.target.textContent;
+                
+                selectOption(event, dropdownType, value, displayText);
+                return;
+            }
+            
+            if (event.target.classList.contains('stream-option')) {
+                const stream = event.target.dataset.stream;
+                selectStream(event, stream);
+                return;
+            }
+            
+            if (!event.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown-content.show').forEach(dropdown => {
+                    dropdown.classList.remove('show');
+                    dropdown.previousElementSibling.classList.remove('active');
+                    dropdown.previousElementSibling.querySelector('.arrow').classList.remove('rotate');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
