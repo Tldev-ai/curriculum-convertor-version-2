@@ -1263,26 +1263,9 @@
         }
 
         function generateDetailedContent(index) {
-            if (index < 2 && isDetailedDataLoaded && detailedCategories[index]) {
-                return generateDetailedContentFromAPI(detailedCategories[index]);
-            } else if (index < 2) {
-                return `
-                    <table class="detailed-table">
-                        <tbody>
-                            <tr>
-                                <td class="aspect-name">${generateBriefCategories()[index].name}</td>
-                                <td class="board-content">
-                                    <p><strong>⏳ Loading detailed comparison...</strong></p>
-                                    <p>Fetching comprehensive data from Claude API...</p>
-                                </td>
-                                <td class="board-content">
-                                    <p><strong>⏳ Loading detailed comparison...</strong></p>
-                                    <p>Fetching comprehensive data from Claude API...</p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                `;
+            if (index < 2) {
+                // ALWAYS show instant content for first 2 categories - NO API DEPENDENCY
+                return generateInstantPlaceholderContent(index);
             } else {
                 const category = generateBriefCategories()[index];
                 return `
@@ -1293,6 +1276,191 @@
                     </div>
                 `;
             }
+        }
+
+        function generateInstantPlaceholderContent(index) {
+            const category = generateBriefCategories()[index];
+            const { fromBoard, toBoard, subject, grade } = state;
+            
+            if (index === 0) {
+                // Syllabus Comparison & Topic Coverage - DETAILED BOARD-SPECIFIC CONTENT
+                return `
+                    <table class="detailed-table">
+                        <tbody>
+                            <tr>
+                                <td class="aspect-name">${category.name}</td>
+                                <td class="board-content">
+                                    ${generateDetailedSyllabusContent(fromBoard, subject, grade)}
+                                </td>
+                                <td class="board-content">
+                                    ${generateDetailedSyllabusContent(toBoard, subject, grade)}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `;
+            } else if (index === 1) {
+                // Educational Philosophy & Learning Approach - DETAILED BOARD-SPECIFIC CONTENT
+                return `
+                    <table class="detailed-table">
+                        <tbody>
+                            <tr>
+                                <td class="aspect-name">${category.name}</td>
+                                <td class="board-content">
+                                    ${generateDetailedPhilosophyContent(fromBoard, subject, grade)}
+                                </td>
+                                <td class="board-content">
+                                    ${generateDetailedPhilosophyContent(toBoard, subject, grade)}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `;
+            }
+        }
+
+        function generateDetailedSyllabusContent(board, subject, grade) {
+            const boardContent = {
+                'CBSE': `
+                    <p><strong>CBSE ${subject} Syllabus for ${grade}:</strong></p>
+                    <ul>
+                        <li><strong>NCERT Alignment:</strong> Curriculum strictly follows NCERT textbooks and guidelines with comprehensive topic coverage ensuring national education standards compliance</li>
+                        <li><strong>Sequential Learning:</strong> Topics arranged in logical progression from fundamental concepts to advanced applications, with clear learning outcomes for each unit</li>
+                        <li><strong>Assessment Integration:</strong> Syllabus designed with 80% theory and 20% practical components, aligned with Board examination pattern and marking schemes</li>
+                        <li><strong>Competency Framework:</strong> Focus on conceptual understanding, problem-solving skills, and application-based learning with emphasis on analytical thinking</li>
+                        <li><strong>Resource Materials:</strong> NCERT textbooks as primary resource, supplemented by exemplar problems, previous years' question papers, and additional study materials</li>
+                        <li><strong>Content Depth:</strong> Moderate to high depth coverage with emphasis on foundational concepts, suitable for competitive exam preparation alongside board exams</li>
+                        <li><strong>Language Medium:</strong> Available in Hindi and English with regional language options, ensuring accessibility across diverse student populations</li>
+                        <li><strong>Practical Components:</strong> Laboratory work, project assignments, and hands-on activities integrated as mandatory components with separate assessment criteria</li>
+                    </ul>
+                `,
+                'ICSE': `
+                    <p><strong>ICSE ${subject} Syllabus for ${grade}:</strong></p>
+                    <ul>
+                        <li><strong>Comprehensive Coverage:</strong> Extensive syllabus with detailed topic coverage ensuring thorough understanding of subject fundamentals and advanced concepts</li>
+                        <li><strong>English Proficiency:</strong> Strong emphasis on English language skills development integrated across all subjects, promoting effective communication abilities</li>
+                        <li><strong>Analytical Approach:</strong> Curriculum designed to develop critical thinking, analytical reasoning, and problem-solving capabilities through application-based learning</li>
+                        <li><strong>International Standards:</strong> Syllabus aligned with global education standards while maintaining Indian cultural and academic values</li>
+                        <li><strong>Balanced Assessment:</strong> Continuous evaluation through internal assessments, projects, and comprehensive examinations with detailed marking schemes</li>
+                        <li><strong>Resource Diversity:</strong> Multiple textbook options from various publishers, encouraging diverse perspectives and comprehensive learning approaches</li>
+                        <li><strong>Practical Emphasis:</strong> Significant weightage to laboratory work, field studies, and practical applications with detailed assessment protocols</li>
+                        <li><strong>Skill Development:</strong> Focus on developing research skills, presentation abilities, and independent learning capabilities through project-based assignments</li>
+                    </ul>
+                `,
+                'IB': `
+                    <p><strong>IB ${subject} Curriculum for ${grade}:</strong></p>
+                    <ul>
+                        <li><strong>Inquiry-Based Learning:</strong> Curriculum structured around student-led inquiry, encouraging questioning, investigation, and discovery-based learning approaches</li>
+                        <li><strong>Global Perspective:</strong> International mindedness integrated throughout with focus on global issues, cultural diversity, and interconnected world understanding</li>
+                        <li><strong>ATL Skills:</strong> Approaches to Learning skills (thinking, communication, social, self-management, research) embedded across all subject areas</li>
+                        <li><strong>Conceptual Framework:</strong> Learning organized around key concepts, related concepts, and global contexts promoting deep conceptual understanding</li>
+                        <li><strong>Assessment Variety:</strong> Diverse assessment methods including criterion-referenced evaluation, peer assessment, self-reflection, and authentic task-based evaluation</li>
+                        <li><strong>Interdisciplinary Connections:</strong> Cross-curricular links emphasized with integration across subject boundaries and real-world application focus</li>
+                        <li><strong>Service Learning:</strong> Community service and action components integrated into learning, promoting social responsibility and active citizenship</li>
+                        <li><strong>Differentiated Instruction:</strong> Curriculum adaptable to diverse learning styles, abilities, and cultural backgrounds with personalized learning pathways</li>
+                    </ul>
+                `,
+                'Cambridge': `
+                    <p><strong>Cambridge ${subject} Programme for ${grade}:</strong></p>
+                    <ul>
+                        <li><strong>International Recognition:</strong> Globally recognized curriculum with university acceptance worldwide, maintaining high academic standards and rigorous assessment</li>
+                        <li><strong>Flexible Structure:</strong> Modular curriculum allowing subject combinations and pathways tailored to student interests and career aspirations</li>
+                        <li><strong>Skills-Based Learning:</strong> Emphasis on transferable skills including critical thinking, problem-solving, communication, and independent research capabilities</li>
+                        <li><strong>Assessment Excellence:</strong> Comprehensive evaluation through internal assessments, coursework, and external examinations with detailed performance descriptors</li>
+                        <li><strong>Resource Quality:</strong> High-quality learning materials, digital resources, and teaching support ensuring consistent educational delivery globally</li>
+                        <li><strong>Global Contexts:</strong> Learning situated in international contexts while respecting local cultures and promoting cross-cultural understanding</li>
+                        <li><strong>University Preparation:</strong> Curriculum specifically designed to prepare students for higher education with emphasis on academic rigor and independent study</li>
+                        <li><strong>Continuous Development:</strong> Regular curriculum updates based on global educational research and feedback from universities and educators worldwide</li>
+                    </ul>
+                `,
+                'State Board': `
+                    <p><strong>State Board ${subject} Syllabus for ${grade}:</strong></p>
+                    <ul>
+                        <li><strong>Regional Relevance:</strong> Curriculum tailored to regional needs, local contexts, and state-specific educational priorities while maintaining national standards</li>
+                        <li><strong>Language Integration:</strong> Regional language instruction integrated with subject content, promoting multilingual competency and cultural preservation</li>
+                        <li><strong>Accessibility Focus:</strong> Designed for broad accessibility with consideration for diverse socioeconomic backgrounds and learning environments</li>
+                        <li><strong>Practical Orientation:</strong> Emphasis on practical applications, local examples, and context-relevant learning experiences</li>
+                        <li><strong>Cost-Effective Resources:</strong> Affordable textbooks and learning materials ensuring educational access across different economic segments</li>
+                        <li><strong>Cultural Integration:</strong> Local history, traditions, and cultural elements woven into curriculum content maintaining regional identity</li>
+                        <li><strong>Government Support:</strong> Strong institutional support with teacher training programs and infrastructure development initiatives</li>
+                        <li><strong>Career Alignment:</strong> Curriculum aligned with local employment opportunities and regional economic development priorities</li>
+                    </ul>
+                `
+            };
+            
+            return boardContent[board] || `<p>Detailed ${board} curriculum information for ${subject} in ${grade}</p>`;
+        }
+
+        function generateDetailedPhilosophyContent(board, subject, grade) {
+            const philosophyContent = {
+                'CBSE': `
+                    <p><strong>CBSE Educational Philosophy & Approach:</strong></p>
+                    <ul>
+                        <li><strong>Holistic Development:</strong> Comprehensive approach focusing on cognitive, emotional, physical, and social development of students through integrated learning experiences</li>
+                        <li><strong>Values Integration:</strong> Constitutional values, national integration, and ethical principles embedded throughout curriculum promoting responsible citizenship</li>
+                        <li><strong>Competency-Based Learning:</strong> Shift from rote learning to competency-based education emphasizing understanding, application, and skill development</li>
+                        <li><strong>Experiential Learning:</strong> Hands-on activities, project work, and real-world problem solving integrated across subjects for meaningful learning experiences</li>
+                        <li><strong>Assessment Reform:</strong> Multiple assessment formats including formative evaluation, peer assessment, and portfolio-based evaluation reducing examination stress</li>
+                        <li><strong>Teacher Empowerment:</strong> Continuous professional development programs and resource support enabling effective pedagogical practices</li>
+                        <li><strong>Inclusive Education:</strong> Special provisions for diverse learners including differently-abled students and marginalized communities ensuring educational equity</li>
+                        <li><strong>Technology Integration:</strong> Digital learning tools, online resources, and technology-enhanced instruction supporting 21st-century learning needs</li>
+                    </ul>
+                `,
+                'ICSE': `
+                    <p><strong>ICSE Educational Philosophy & Approach:</strong></p>
+                    <ul>
+                        <li><strong>Analytical Thinking:</strong> Curriculum designed to develop critical analysis, logical reasoning, and independent thinking capabilities through challenging academic content</li>
+                        <li><strong>English Proficiency:</strong> Strong emphasis on English language mastery as medium of instruction and communication, preparing students for global opportunities</li>
+                        <li><strong>Comprehensive Education:</strong> Balanced approach covering academics, arts, sports, and co-curricular activities ensuring well-rounded personality development</li>
+                        <li><strong>Internal Assessment:</strong> Continuous evaluation system with significant weightage to internal assessment promoting consistent academic engagement</li>
+                        <li><strong>Teacher Quality:</strong> High standards for educator qualification and training ensuring excellence in instructional delivery and subject expertise</li>
+                        <li><strong>Individual Attention:</strong> Smaller class sizes and personalized learning approaches catering to individual student needs and learning styles</li>
+                        <li><strong>Academic Rigor:</strong> Challenging curriculum standards preparing students for competitive examinations and higher education excellence</li>
+                        <li><strong>Character Building:</strong> Emphasis on moral values, discipline, and character formation alongside academic achievement</li>
+                    </ul>
+                `,
+                'IB': `
+                    <p><strong>IB Educational Philosophy & Approach:</strong></p>
+                    <ul>
+                        <li><strong>International Mindedness:</strong> Development of global citizens with intercultural understanding, multilingual competency, and awareness of global challenges</li>
+                        <li><strong>Inquiry-Based Learning:</strong> Student-centered approach encouraging questioning, investigation, and discovery rather than passive information absorption</li>
+                        <li><strong>Conceptual Understanding:</strong> Learning organized around key concepts and big ideas promoting deep understanding and transferable knowledge</li>
+                        <li><strong>ATL Skills Development:</strong> Systematic development of Approaches to Learning skills including critical thinking, communication, collaboration, and self-management</li>
+                        <li><strong>Service Learning:</strong> Community service and social action integrated into curriculum fostering empathy, social responsibility, and active citizenship</li>
+                        <li><strong>Authentic Assessment:</strong> Real-world, performance-based assessment tasks measuring genuine understanding and application of knowledge</li>
+                        <li><strong>Learner Profile:</strong> Development of ten learner attributes including being inquirers, knowledgeable, thinkers, communicators, principled, and reflective</li>
+                        <li><strong>Action-Oriented Learning:</strong> Emphasis on taking informed action on local and global issues, promoting agency and positive social impact</li>
+                    </ul>
+                `,
+                'Cambridge': `
+                    <p><strong>Cambridge Educational Philosophy & Approach:</strong></p>
+                    <ul>
+                        <li><strong>Academic Excellence:</strong> Rigorous academic standards with emphasis on deep subject knowledge, critical thinking, and intellectual development</li>
+                        <li><strong>Skills-Based Learning:</strong> Focus on transferable skills including analysis, evaluation, synthesis, and independent research capabilities</li>
+                        <li><strong>Global Recognition:</strong> International curriculum with university recognition worldwide, maintaining consistent quality and standards globally</li>
+                        <li><strong>Flexible Pathways:</strong> Multiple subject combinations and progression routes allowing students to tailor education to career aspirations</li>
+                        <li><strong>Independent Learning:</strong> Encouragement of self-directed study, research skills, and autonomous learning capabilities preparing for higher education</li>
+                        <li><strong>Assessment Reliability:</strong> Robust assessment system with external moderation ensuring fairness, reliability, and international comparability</li>
+                        <li><strong>Teacher Support:</strong> Comprehensive training programs, resources, and ongoing professional development for educators worldwide</li>
+                        <li><strong>Innovation Focus:</strong> Regular curriculum updates incorporating latest educational research, technology integration, and pedagogical innovations</li>
+                    </ul>
+                `,
+                'State Board': `
+                    <p><strong>State Board Educational Philosophy & Approach:</strong></p>
+                    <ul>
+                        <li><strong>Regional Adaptation:</strong> Educational approach tailored to local cultural contexts, regional needs, and state-specific developmental priorities</li>
+                        <li><strong>Inclusive Access:</strong> Democratic education ensuring access across diverse socioeconomic backgrounds, rural-urban divide, and different learning capabilities</li>
+                        <li><strong>Cultural Preservation:</strong> Integration of local history, traditions, languages, and cultural values maintaining regional identity and heritage</li>
+                        <li><strong>Practical Relevance:</strong> Curriculum connected to local employment opportunities, regional economic activities, and community development needs</li>
+                        <li><strong>Government Support:</strong> Strong institutional backing with infrastructure development, teacher training, and resource allocation from state authorities</li>
+                        <li><strong>Affordable Education:</strong> Cost-effective educational delivery ensuring quality education remains accessible to all economic segments of society</li>
+                        <li><strong>Community Integration:</strong> School-community partnerships, local stakeholder involvement, and alignment with regional development initiatives</li>
+                        <li><strong>Progressive Adaptation:</strong> Gradual incorporation of modern pedagogical approaches while maintaining cultural and regional educational values</li>
+                    </ul>
+                `
+            };
+            
+            return philosophyContent[board] || `<p>Detailed ${board} educational philosophy for ${subject} in ${grade}</p>`;
         }
 
         async function loadDetailedDataInBackground() {
@@ -1334,12 +1502,9 @@
         }
 
         function updateFirstTwoCategoriesWithRealData() {
-            for (let i = 0; i < 2; i++) {
-                const content = document.getElementById(`accordion-content-${i}`);
-                if (content && content.classList.contains('show') && detailedCategories[i]) {
-                    content.innerHTML = generateDetailedContentFromAPI(detailedCategories[i]);
-                }
-            }
+            // Don't update first 2 categories - keep them as instant placeholders
+            // Only update categories 2+ when they are expanded
+            console.log('✅ Keeping first 2 categories as instant placeholders');
         }
 
         function showDataLoadError() {
